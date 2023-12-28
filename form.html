@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Tables</title>
+</head>
+
+<body>
+
+<form name="employment" action="send.php" method="post">
+    <table width="50%" border="1" bordercolor="black" cellspacing="2" cellpadding="2">
+
+        <tr>
+            <td>Employment Application</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>FirstName</td>
+            <td><input type="text" name="fname" maxlength="50"/></td>
+        </tr>
+
+        <tr>
+            <td>LastName</td>
+            <td><input type="text" name="lname" maxlength="50"/></td>
+        </tr>
+
+        <tr>
+            <td>Position</td>
+            <td>
+                <select name="position">
+                    <option value="AC">Accountant</option>
+                    <option value="RE">Receptionist</option>
+                    <option value="AD">Administrator</option>
+                    <option value="SU">Supervisor</option>
+                 </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>job Type:</td>
+            <td><input type="checkbox" name="ft"/>Full Time</td>
+            <td><input type="checkbox" name="pt"/>Part Time</td>
+            <td><input type="checkbox" name="ct"/>Contract</td>
+        </tr>
+
+        <tr>
+            <td>Employment Status</td>
+            <td><input type="radio" name="estatus"/>Employed</td>
+            <td><input type="radio" name="uestatus"/>Unemployed</td>
+            <td><input type="radio" name="student"/>Student</td>
+        </tr>
+
+        <tr>
+            <td>Additional Comments</td>
+            <td>
+            <textarea name="comments"  cols="5" rows="5"></textarea>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <input type="submit" name="submit" value="submit">
+                <input type="reset" name="reset" value="reset">
+            </td>
+        </tr>
+        
+     </table>
+</form>
+
+</body>
+</html>
