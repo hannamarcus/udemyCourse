@@ -6,15 +6,32 @@ PurchaseDate, and PurchaseAmount. Customers who spent over $1000 should receive 
 between $500 and $1000 should receive a 15% discount, and those who spent less than $500 should receive a 10% discount. -->
 
 %%[
-VAR @SubscriberKey, @PurchaseDate, @PurchaseAmount, @TotalAmount, @Purchases, @PurchaseCount, @Today, @LastYear, @Counter
+VAR @SubscriberKey, @Purchases, @PurchaseCount, @Counter, @Purchase, @TotalAmount, @discount, @PurchaseDate, @PurchaseAmount, @LastYear
 SET @SubscriberKey = AttributeValue('SubscriberKey')
-SET @PurchaseDate = AttributeValue('PurchaseDate')
-SET @PurchaseAmount = AttributeValue('PurchaseAmount')
-SET @Purchases = LookupRows('PurchaseHistory','SubscriberKey', @SubscriberKey)
-SET @PurchaseCount = rowCount(@Purchases)
 SET @Today = Now()
-SET @LastYear = DateAdd(@Today,-1,'Y')
+SET @LastYear = DateAdd(@Today, -1, 'Y')
+SET @Purchases = LookupRows('PurchaseHistory', 'SubscriberKey', @SubscriberKey)
+SET @PurchaseCount = RowCount(@Purchases)
 SET @TotalAmount = 0
 
-IF @PurchaseCount > 0 
+IF @PurchaseCount > 0 THEN
+    FOR @Counter = 1 TO @PurchaseCount DO
+        SET @Purchase = Row(@Purchases, @Counter)
+        SET @PurchaseDate = Field(@Purchase, 'PurchaseDate')
+        SET @PurchaseAmount = Field(@Purchase, 'PurchaseAmount')
+
+        IF @PurchaseDate >= @LastYear THEN
+            SET @TotalAmount = @TotalAmount + @PurchaseAmount
+        ENDIF
+    NEXT @Counter
+ENDIF
+
+IF @TotalAmount > 1000 THEN
+    SET @discount = '20% off!'
+ELSEIF @TotalAmount > 500 THEN
+    SET @discount = '15% off!'
+ELSE
+    SET @discount = '10% off!'
+ENDIF
 ]%%
+%%=v(@discount)=%%
