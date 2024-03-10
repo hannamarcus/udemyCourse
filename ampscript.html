@@ -1,0 +1,20 @@
+<!-- AMPscript Challenge: Personalized Discount Offer Based on Purchase History
+
+Write a script for an email campaign that offers personalized discounts to customers based on their total purchase
+amount in the last year. Assume you have a data extension named PurchaseHistory with columns SubscriberKey,
+PurchaseDate, and PurchaseAmount. Customers who spent over $1000 should receive a 20% discount offer, those who spent
+between $500 and $1000 should receive a 15% discount, and those who spent less than $500 should receive a 10% discount. -->
+
+%%[
+VAR @SubscriberKey, @PurchaseDate, @PurchaseAmount, @TotalAmount, @Purchases, @PurchaseCount, @Today, @LastYear, @Counter
+SET @SubscriberKey = AttributeValue('SubscriberKey')
+SET @PurchaseDate = AttributeValue('PurchaseDate')
+SET @PurchaseAmount = AttributeValue('PurchaseAmount')
+SET @Purchases = LookupRows('PurchaseHistory','SubscriberKey', @SubscriberKey)
+SET @PurchaseCount = rowCount(@Purchases)
+SET @Today = Now()
+SET @LastYear = DateAdd(@Today,-1,'Y')
+SET @TotalAmount = 0
+
+IF @PurchaseCount > 0 
+]%%
