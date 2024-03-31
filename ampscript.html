@@ -35,3 +35,31 @@ ELSE
 ENDIF
 ]%%
 %%=v(@discount)=%%
+
+<!--Write a script for an email campaign that provides a weekly summary of a subscriber's activities. 
+    Assume you have a data extension named WeeklyActivities with columns SubscriberKey, ActivityName, 
+    and ActivityDate. For each subscriber, the script should compile a list of all activities they participated 
+    in during the last week. Use a loop to go through the activities and generate a summary.-->
+
+
+%%[
+VAR @SubscriberKey, @ActivityName, @ActivityDate, @Activities, @ActivityCount, @Counter, @Activity, @Name, @Date
+SET @SubscriberKey = AttributeValue('SubscriberKey')
+SET @ActivityName = AttributeValue('ActivityName')
+SET @ActivityDate = AttributeValue('ActivityDate')
+SET @Activities = LookupRows('WeeklyActivities','SubscriberKey',@SubscriberKey)
+SET @ActivityCount = RowCount(@Activities)
+IF @ActivityCount > 0 THEN
+    FOR @Counter = 1 TO @ActivityCount DO
+        SET @Activity = Row(@Activities,@Counter)
+        SET @Name = Field(@Activity,'ActivityName')
+        SET @Date  = FormatDate(Field(@Activity,'ActivityDate'),'mm-dd-yyyy')
+        ]%%
+<p>%%=v(Name)=%%,%%=v(Date)=%%</p>
+        %%[
+    NEXT @Counter
+    ELSE ]%%
+    <p>No activities to display.</p>
+    %%[
+ENDIF
+]%%
